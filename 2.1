@@ -1,3 +1,4 @@
+任务一
 #include <iostream>
 #include <iomanip>
 #include <string>
@@ -40,3 +41,126 @@ int main() {
     return 0;
 }
 
+任务二
+#include <iostream>
+#include <cctype>
+using namespace std;
+
+int countVowels(const char* p) {
+    int count = 0;
+    while (*p != '\0') {
+        char ch = static_cast<char>(tolower(static_cast<unsigned char>(*p)));
+        if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
+            ++count;
+        }
+        ++p;
+    }
+    return count;
+}
+
+int main() {
+    char str[1001];
+    cin.getline(str, 1001);
+
+    int vowels = countVowels(str);
+    cout << "Number of vowels: " << vowels << endl;
+    return 0;
+}
+
+任务三
+#include <iostream>
+#include <iomanip>
+#include <sstream>
+#include <string>
+using namespace std;
+
+inline double square(double x) {
+    return x * x;
+}
+
+double power(double base, int exponent = 2) {
+    double result = 1.0;
+    for (int i = 0; i < exponent; ++i) result *= base;
+    return result;
+}
+
+double calc(double a, double b, char op) {
+    switch (op) {
+        case '+': return a + b;
+        case '-': return a - b;
+        case '*': return a * b;
+        case '/':
+            if (b == 0) { cout << "Error: divide by zero" << endl; return 0.0; }
+            return a / b;
+        default:  cout << "Error: unknown operator" << endl; return 0.0;
+    }
+}
+
+double calc(int a, int b, char op) {
+    switch (op) {
+        case '+': return static_cast<double>(a) + b;
+        case '-': return static_cast<double>(a) - b;
+        case '*': return static_cast<double>(a) * b;
+        case '/':
+            if (b == 0) { cout << "Error: divide by zero" << endl; return 0.0; }
+            return static_cast<double>(a) / b;
+        default:  cout << "Error: unknown operator" << endl; return 0.0;
+    }
+}
+
+string num(double v)  { ostringstream os; os << defaultfloat << v; return os.str(); }
+string num2(double v) { ostringstream os; os << fixed << setprecision(2) << v; return os.str(); }
+
+int main() {
+    double a, b;
+    char op;
+    cin >> a >> b >> op;
+
+    cout << "square(" << num(a) << ") = " << num2(square(a)) << endl;
+    cout << "power(" << num(a) << ",3) = " << num2(power(a, 3)) << endl;
+
+    if (op == '/' && b == 0) {
+        calc(a, b, op);                      // 由 calc 输出错误提示
+    } else {
+        cout << num(a) << " " << op << " " << num(b)
+             << " = " << num2(calc(a, b, op)) << endl;
+    }
+    return 0;
+}
+
+任务四
+#include <iostream>
+using namespace std;
+
+// 1. 引用版本：形参是实参的别名，直接交换
+void swap(int& x, int& y) {
+    int t = x;
+    x = y;
+    y = t;
+}
+
+// 2. 重载：指针版本（地址传递）
+void swap(int* px, int* py) {
+    int t = *px;
+    *px = *py;
+    *py = t;
+}
+
+// 3. 重载：double 版本（引用）
+void swap(double& x, double& y) {
+    double t = x;
+    x = y;
+    y = t;
+}
+
+int main() {
+    int x, y;
+    cin >> x >> y;
+
+    cout << "Before swap: x=" << x << ", y=" << y << endl;
+
+    swap(x, y);          // int 变量 -> 匹配 swap(int&, int&)
+
+    cout << "After  swap: x=" << x << ", y=" << y << endl;
+    return 0;
+}
