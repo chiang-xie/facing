@@ -1,0 +1,59 @@
+#include <iostream>
+#include <string>
+#include <iomanip>
+using namespace std;
+
+const double FEE_RATE = 0.02;
+const double WARNING_BALANCE = 10.0;
+
+struct Card {
+    int    id;            // 学号
+    string name;          // 姓名
+    double balance;       // 当前余额
+    int    transactions;  // 交易次数
+};
+
+// 用 new[] 动态创建 n 个账户
+Card* createCards(int n) {
+    return new Card[n];
+}
+
+// 用 delete[] 释放账户数组
+void destroyCards(Card* p) {
+    delete[] p;   // delete[] 可安全作用于 nullptr
+}
+
+// 循环读入学号、姓名、初始余额，交易次数置 0
+void inputCards(Card* arr, int n) {
+    for (int i = 0; i < n; ++i) {
+        cin >> arr[i].id >> arr[i].name >> arr[i].balance;
+        arr[i].transactions = 0;
+    }
+}
+
+// 输出账户信息表
+void outputCards(const Card* arr, int n) {
+    cout << left << setw(10) << "ID" << setw(10) << "Name"
+         << right << setw(10) << "Balance" << setw(8) << "Trans" << endl;
+    cout << fixed << setprecision(2);
+    for (int i = 0; i < n; ++i) {
+        cout << left  << setw(10) << arr[i].id
+                      << setw(10) << arr[i].name
+             << right << setw(10) << arr[i].balance
+                      << setw(8)  << arr[i].transactions << endl;
+    }
+}
+
+int main() {
+    int n;
+    cin >> n;
+
+    Card* arr = createCards(n);   // new[]
+    inputCards(arr, n);
+    outputCards(arr, n);
+
+    destroyCards(arr);            // delete[]
+    arr = nullptr;
+
+    return 0;
+}
