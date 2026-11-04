@@ -1,0 +1,41 @@
+#include <iostream>
+#include <string>
+#include <iomanip>
+using namespace std;
+
+// 系统常量
+const double FEE_RATE = 0.02;         // 充值手续费率
+const double WARNING_BALANCE = 10.0;  // 低余额警戒值
+
+// 学生一卡通账户
+struct Card {
+    int    id;            // 学号
+    string name;          // 姓名
+    double balance;       // 当前余额
+    int    transactions;  // 交易次数
+};
+
+int main() {
+    Card cards[3] = {
+        {2023001, "LiMing",   35.50, 4},
+        {2023002, "WangHua",   8.00, 7},
+        {2023003, "ZhangWei", 120.00, 2}
+    };
+
+    cout << "FEE_RATE = " << FEE_RATE
+         << ", WARNING_BALANCE = " << WARNING_BALANCE << endl << endl;
+
+    cout << left << setw(10) << "ID" << setw(10) << "Name"
+         << right << setw(10) << "Balance" << setw(8) << "Trans" << endl;
+
+    cout << fixed << setprecision(2);
+    for (int i = 0; i < 3; ++i) {
+        cout << left << setw(10) << cards[i].id
+                     << setw(10) << cards[i].name
+             << right << setw(10) << cards[i].balance
+                      << setw(8)  << cards[i].transactions;
+        if (cards[i].balance < WARNING_BALANCE) cout << "  [low]";
+        cout << endl;
+    }
+    return 0;
+}
