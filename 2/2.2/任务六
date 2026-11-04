@@ -1,0 +1,59 @@
+#include <iostream>
+#include <string>
+#include <iomanip>
+using namespace std;
+
+const double FEE_RATE = 0.02;
+const double WARNING_BALANCE = 10.0;
+
+struct Card {
+    int    id;
+    string name;
+    double balance;
+    int    transactions;
+};
+
+void printReport(const Card* arr, int n) {
+    const int W_ID = 10;    // 学号列宽
+    const int W_NAME = 14;  // 姓名列宽
+    const int W_BAL = 12;   // 余额列宽
+    const int W_TRANS = 14; // 交易次数列宽
+
+    auto line = []() {
+        for (int i = 0; i < 50; ++i) cout << '-';
+        cout << '\n';
+    };
+    // 注：若 C++11 不可用，把上面的 lambda 换成普通函数 card::printLine()
+
+    line();
+    cout << left  << setw(W_ID)    << "ID"
+                  << setw(W_NAME)  << "Name"
+         << right << setw(W_BAL)   << "Balance"
+                  << setw(W_TRANS) << "Transactions" << '\n';
+    line();
+
+    cout << fixed << setprecision(2);   // 余额两位小数，仅作用于浮点输出
+
+    string name;
+    for (int i = 0; i < n; ++i) {
+        name = arr[i].name;
+        if (static_cast<int>(name.size()) > W_NAME - 1) {   // 超宽则截断，防止表格错位
+            name = name.substr(0, W_NAME - 1);
+        }
+        cout << left  << setw(W_ID)   << arr[i].id
+                      << setw(W_NAME) << name
+             << right << setw(W_BAL)  << arr[i].balance
+                      << setw(W_TRANS)<< arr[i].transactions << '\n';
+    }
+    line();
+}
+
+int main() {
+    Card arr[3] = {
+        {2023001, "LiMing",    35.50, 4},
+        {2023002, "WangHua",    8.00, 7},
+        {2023003, "ZhangWei", 120.00, 2}
+    };
+    printReport(arr, 3);
+    return 0;
+}
