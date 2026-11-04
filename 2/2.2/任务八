@@ -1,0 +1,48 @@
+#include "card_operations.h"      // 集成各功能模块
+#include <iostream>
+#ifdef _WIN32
+#include <windows.h>              // 调试时中文输出不乱码
+#endif
+using namespace std;
+
+int main() {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);    // 控制台按 UTF-8 显示
+#endif
+
+    // 1. 系统标题 + 学生数量
+    title("Campus Card System");
+    cout << "Input number of students: ";
+    int n;
+    cin >> n;
+    if (n <= 0) {
+        cout << "Invalid number!" << endl;
+        return 1;
+    }
+
+    // 2. 动态创建账户数组并录入
+    Card* arr = createCards(n);
+    cout << "Input: id name balance (one line per student)" << endl;
+    inputCards(arr, n);
+
+    // 3. 第一个账户充值 100 元、消费 8.5 元（食堂午餐）
+    deposit(arr[0], 100.0);
+    spend(arr[0], 8.5, "食堂午餐");
+
+    // 4. 显示余额与账户 ID
+    showBalance(arr[0]);
+    viewStudentID(&arr[0]);
+
+    // 5. 余额换算为分
+    cout << "Balance in cent: " << toCent(arr[0].balance) << endl;
+
+    // 6. 全部账户报表
+    cout << endl;
+    printReport(arr, n);
+
+    // 7. 释放动态内存
+    destroyCards(arr);
+    arr = nullptr;
+
+    return 0;
+}
