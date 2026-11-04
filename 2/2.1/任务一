@@ -1,1 +1,41 @@
+#include <iostream>
+#include <iomanip>
+#include <string>
+#include <vector>
+using namespace std;
 
+int main() {
+    int n;
+    cin >> n;
+
+    vector<string> name(n);
+    vector<double> chinese(n), math(n), english(n);
+
+    for (int i = 0; i < n; ++i) {
+        cin >> name[i] >> chinese[i] >> math[i] >> english[i];
+    }
+
+    cout << left << setw(12) << "Name"
+         << right << setw(8) << "Chinese"
+         << setw(8) << "Math"
+         << setw(8) << "English"
+         << setw(10) << "Average" << endl;
+
+    cout << fixed << setprecision(2);
+
+    for (int i = 0; i < n; ++i) {
+        double avg = (chinese[i] + math[i] + english[i]) / 3.0;
+
+        cout << left << setw(12) << name[i]
+             << right << setw(8) << chinese[i]
+             << setw(8) << math[i]
+             << setw(8) << english[i]
+             << setw(10) << avg;
+
+        if (avg >= 90.0) {
+            cout << "  Excellent";
+        }
+        cout << endl;
+    }
+    return 0;
+}
