@@ -1,0 +1,31 @@
+#include <iostream>
+#include <iomanip>
+#include <string>
+using namespace std;
+
+// 元 -> 分：static_cast<int> 显式截断小数部分
+int toCent(double amount) {
+    // +0.5 做四舍五入，避免 85.5*100=8549.999… 被截成 8549
+    return static_cast<int>(amount * 100.0 + 0.5);
+}
+
+// 分 -> 元
+double toYuan(int cent) {
+    return static_cast<double>(cent) / 100.0;
+}
+
+int main() {
+    double amounts[] = {35.5, 8.0, 120.0, 0.015};
+
+    cout << fixed << setprecision(2);
+    for (double a : amounts) {
+        int cent = toCent(a);
+        cout << a << " yuan = " << cent << " cent, back = "
+             << toYuan(cent) << " yuan" << endl;
+    }
+
+    // 对比：直接截断 vs 四舍五入
+    cout << "static_cast<int>(85.5 * 100) = "
+         << static_cast<int>(85.5 * 100) << endl;   // 可能得到 8549
+    return 0;
+}
